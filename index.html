@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Lightest Element Demo</title>
+  </head>
+  <body>
+    <flag-icon id="demoComponent" name="André"></flag-icon>
+
+    <script type="module">
+      import { html, LightestElement } from "./dist/lightest-element.js";
+
+      class FlagIcon extends LightestElement {
+        constructor() {
+          super();
+          this.__DEBUG = true;
+        }
+
+        static get observedAttributes() {
+          return ["name"];
+        }
+
+        get name() {
+          return this.getAttribute("name");
+        }
+
+        set name(newName) {
+          this.setAttribute("name", newName);
+        }
+
+        render() {
+          return html`
+            <p>Hello ${this.name}</p>
+            <p>Hello ${this.complexName.name} ${this.complexName.surname}</p>
+          `;
+        }
+      }
+
+      customElements.define("flag-icon", FlagIcon);
+    </script>
+    <script>
+      document.querySelector("#demoComponent").complexName = {
+        name: "André",
+        surname: "Veiga"
+      };
+    </script>
+  </body>
+</html>
